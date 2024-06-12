@@ -296,19 +296,23 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
     }
 
     void rewardAction(int action) {
+
         learningAutomataProbability[action] *= (1 - getA());
         learningAutomataProbability[action] += getA();
 
         for (int i = 0; i < r; i++) {
+
             if (i != action) learningAutomataProbability[i] *= (1 - getA());
         }
     }
 
     void penalizeAction(int action) {
+
         learningAutomataProbability[action] *= (1 - getB());
 
         for (int i = 0; i < r; i++) {
             if (i != action) {
+
                 learningAutomataProbability[i] *= (1 - getB());
                 learningAutomataProbability[i] += getB() / (r - 1);
             }
@@ -316,10 +320,12 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
     }
 
     public void updateLA() {
+
         double mean = getUtilizationMean();
         double current = getTotalUtilizationOfCpuMips(CloudSim.clock());
 
         switch (getAction()) {
+
             case "NAT":
                 if (mean == current)
                     rewardAction(currentAction);
@@ -338,6 +344,7 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
                 else
                     penalizeAction(currentAction);
                 break;
+
         }
     }
 
@@ -355,7 +362,9 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
 
     @Override
     public double updateVmProcessing(final double currentTime, final List<Double> mipsShare) {
+
         double time = super.updateVmProcessing(currentTime, mipsShare);
+
         if (currentTime > getPreviousTime()) {
             double utilization = getTotalUtilizationOfCpu(getCloudletScheduler().getPreviousTime());
             if (utilization > 1) utilization = 1;
@@ -399,8 +408,10 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
     }
 
     public double getUtilizationVariance() {
+
         double mean = getUtilizationMean();
         double variance = 0;
+        
         if (!getUtilizationHistory().isEmpty()) {
             int n = HISTORY_LENGTH;
             if (HISTORY_LENGTH > getUtilizationHistory().size()) {
