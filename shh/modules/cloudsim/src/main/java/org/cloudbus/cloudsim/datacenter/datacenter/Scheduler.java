@@ -1,4 +1,4 @@
-package org.cloudbus.cloudsim.la4am12.datacenter;
+package org.cloudbus.cloudsim.datacenter.datacenter;
 
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Log;

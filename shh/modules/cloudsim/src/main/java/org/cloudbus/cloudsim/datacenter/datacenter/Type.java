@@ -1,4 +1,4 @@
-package org.cloudbus.cloudsim.la4am12.datacenter;
+package org.cloudbus.cloudsim.datacenter.datacenter;
 
 /**
  * @author : LA4AM12

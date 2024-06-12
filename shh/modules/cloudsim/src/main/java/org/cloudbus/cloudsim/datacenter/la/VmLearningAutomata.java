@@ -231,7 +231,7 @@
 //
 //
 //}
-package org.cloudbus.cloudsim.la4am12.la;
+package org.cloudbus.cloudsim.datacenter.la;
 
 import org.cloudbus.cloudsim.CloudletScheduler;
 import org.cloudbus.cloudsim.Vm;
@@ -242,22 +242,19 @@ import java.util.List;
 
 public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动机的虚拟机
 
-    // 动作数量
     private int r = 3;
-    // 学习自动机的概率分布
+
     private Double[] learningAutomataProbability = {1.0 / 3, 1.0 / 3, 1.0 / 3};
     private String[] action = {"INTA", "DNTA", "NAT"};
     private int currentAction = 0;
-    // 奖励和惩罚参数
+
     private double a;
     private double b;
 
-    // 上一次处理cloudlets的时间
     private double previousTime;
-    // 利用率历史记录
+
     private final List<Double> utilizationHistory = new LinkedList<>();
 
-    // 历史记录长度
     public static final int HISTORY_LENGTH = 30;
 
     public VmLearningAutomata(
@@ -290,17 +287,14 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
         setAction(action);
     }
 
-    // 通过int设定动作
     private void setAction(int action) {
         currentAction = action;
     }
 
-    // 获取当前动作的String表示
     public String getAction() {
         return action[currentAction];
     }
 
-    // 奖励动作
     void rewardAction(int action) {
         learningAutomataProbability[action] *= (1 - getA());
         learningAutomataProbability[action] += getA();
@@ -310,7 +304,6 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
         }
     }
 
-    // 惩罚动作
     void penalizeAction(int action) {
         learningAutomataProbability[action] *= (1 - getB());
 
@@ -322,7 +315,6 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
         }
     }
 
-    // 更新学习自动机状态
     public void updateLA() {
         double mean = getUtilizationMean();
         double current = getTotalUtilizationOfCpuMips(CloudSim.clock());
@@ -349,12 +341,10 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
         }
     }
 
-    // 获取学习自动机的概率分布
     public Double[] getLearningAutomataProbability() {
         return learningAutomataProbability;
     }
 
-    // 获取当前动作
     public int getCurrentAction() {
         return currentAction;
     }
@@ -368,7 +358,6 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
         double time = super.updateVmProcessing(currentTime, mipsShare);
         if (currentTime > getPreviousTime()) {
             double utilization = getTotalUtilizationOfCpu(getCloudletScheduler().getPreviousTime());
-            // 确保利用率在0和1之间
             if (utilization > 1) utilization = 1;
             if (CloudSim.clock() != 0) {
                 addUtilizationHistoryValue(utilization);
@@ -409,7 +398,6 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
         this.previousTime = previousTime;
     }
 
-    // 获取MIPS中的利用率差异
     public double getUtilizationVariance() {
         double mean = getUtilizationMean();
         double variance = 0;
@@ -427,7 +415,6 @@ public class VmLearningAutomata extends Vm {  // 扩展Vm类实现学习自动�
         return variance;
     }
 
-    // 计算利用率的平均值
     public double getUtilizationMean() {
         double sum = 0;
         if (!getUtilizationHistory().isEmpty()) {

@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.cloudbus.cloudsim.la4am12.la.VmLearningAutomata.HISTORY_LENGTH;
-
 /**
  * Represents a Virtual Machine (VM) that runs inside a Host, sharing a hostList with other VMs. It processes
  * cloudlets. This processing happens according to a policy, defined by the CloudletScheduler. Each
